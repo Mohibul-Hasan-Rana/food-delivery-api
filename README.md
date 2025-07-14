@@ -7,7 +7,7 @@ This is a backend API for a food delivery platform built with Laravel 12 and MyS
 
 ## Setup Instructions
 
-1. **Clone the repository**
+1. **Clone the repository** and **Go to the folder**
 2. **Install dependencies**
    ```
    composer install
@@ -62,7 +62,6 @@ This is a backend API for a food delivery platform built with Laravel 12 and MyS
 - **Sanctum**: Chosen for API authentication due to simplicity and SPA/mobile support.
 - **Notifications**: Laravel notifications for assignment events.
 - **API Resources**: Used for consistent response formatting.
-- **Testing**: PHPUnit feature tests cover core flows.
 
 ## How to Extend
 - Add more notification channels (email, SMS, etc.)
