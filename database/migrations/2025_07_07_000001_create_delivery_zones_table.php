@@ -3,17 +3,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+class CreateDeliveryZonesTable extends Migration {
     public function up(): void
     {
         Schema::create('delivery_zones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('restaurant_id');
+            $table->foreignId('restaurant_id');
+            $table->string('name');
             $table->enum('type', ['polygon', 'radius']);
-            $table->json('coordinates')->nullable(); // For polygon: array of lat/lng, for radius: center point
-            $table->float('radius_km')->nullable(); // Only for radius type
+            $table->json('coordinates')->nullable(); // For polygon zones
+            $table->decimal('center_lat', 10, 8)->nullable(); // For radius zones
+            $table->decimal('center_lng', 11, 8)->nullable(); // For radius zones
+            $table->decimal('radius', 8, 2)->nullable(); // For radius zones (in km)
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
         });
     }
     public function down(): void
