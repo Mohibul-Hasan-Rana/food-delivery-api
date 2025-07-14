@@ -7,6 +7,8 @@ use App\Models\DeliveryMan;
 use App\Models\Order;
 use App\Events\DeliveryAssignmentCreated;
 use App\Services\ZoneValidationService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DeliveryAssignmentService
 {
@@ -47,9 +49,10 @@ class DeliveryAssignmentService
             'order_id' => $order->id,
             'delivery_man_id' => $deliveryMan->id,
             'assigned_at' => now(),
-        ]);
+        ]);       
 
-        event(new DeliveryAssignmentCreated($assignment));
+        // Send notification to delivery man
+        $deliveryMan->notify(new \App\Notifications\OrderAssigned($order));
 
         return $assignment;
     }
