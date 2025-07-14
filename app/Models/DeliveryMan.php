@@ -6,16 +6,33 @@ use Illuminate\Notifications\Notifiable;
 
 class DeliveryMan extends Model
 {
-    use Notifiable;
 
+    protected $table = 'delivery_mens';
+    
     protected $fillable = [
+        'name',
+        'email',
+        'phone',
         'latitude',
         'longitude',
-        'is_available',
+        'location_updated_at',
+        'is_available'
     ];
 
-    public function orders()
+    protected $casts = [
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
+        'location_updated_at' => 'datetime',
+        'is_available' => 'boolean'
+    ];
+
+    public function assignments(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(DeliveryAssignment::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', true);
     }
 }

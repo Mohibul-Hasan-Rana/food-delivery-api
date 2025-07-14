@@ -7,22 +7,30 @@ class DeliveryZone extends Model
 {
     protected $fillable = [
         'restaurant_id',
+        'name',
         'type',
         'coordinates',
-        'radius_km',
+        'center_lat',
+        'center_lng',
+        'radius',
+        'is_active'
     ];
 
     protected $casts = [
         'coordinates' => 'array',
+        'center_lat' => 'decimal:8',
+        'center_lng' => 'decimal:8',
+        'radius' => 'decimal:2',
+        'is_active' => 'boolean'
     ];
 
-    public function restaurant()
+    public function restaurant(): BelongsTo
     {
         return $this->belongsTo(Restaurant::class);
     }
 
-    public function orders()
+    public function scopeActive($query)
     {
-        return $this->hasMany(Order::class);
+        return $query->where('is_active', true);
     }
 }

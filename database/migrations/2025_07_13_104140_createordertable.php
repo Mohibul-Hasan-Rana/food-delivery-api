@@ -12,11 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+           $table->id();
             $table->foreignId('restaurant_id');
-            $table->string('delivery_address');
-            $table->foreignId('delivery_person_id')->nullable();
-            $table->string('status')->default('pending');
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->json('items');
+            $table->text('delivery_address');
+            $table->decimal('delivery_lat', 10, 8);
+            $table->decimal('delivery_lng', 11, 8);
+            $table->decimal('total_amount', 10, 2);
+            $table->enum('status', ['pending', 'confirmed', 'preparing', 'ready', 'assigned', 'picked_up', 'delivered', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }
